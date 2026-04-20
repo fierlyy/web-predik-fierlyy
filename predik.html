@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>FIERLYY BOSS | MAFIA ASHURA PREDICTOR</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Poppins', 'Oswald', sans-serif;
+        }
+        body {
+            min-height: 100vh;
+            background: url('https://img2.pixhost.to/images/7301/716590725_xlyy-sera-assistant.jpg') no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+        }
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.75);
+            z-index: 0;
+        }
+        * {
+            position: relative;
+            z-index: 2;
+        }
+        .login-container, .admin-container {
+            background: #0a0502e6;
+            backdrop-filter: blur(12px);
+            border-radius: 48px;
+            border: 2px solid #d4af37;
+            padding: 35px 30px;
+            max-width: 450px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 0 50px rgba(212, 175, 55, 0.5);
+        }
+        h2 {
+            font-size: 1.8rem;
+            background: linear-gradient(135deg, #f5cb5c, #c0392b);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 20px;
+        }
+        input {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: 60px;
+            border: 1px solid #4a351c;
+            background: #1f1913;
+            color: #f0e2c5;
+            margin-bottom: 16px;
+            font-size: 1rem;
+        }
+        button {
+            background: #b87c2e;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 60px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        button:hover {
+            background: #c0392b;
+            color: #f5cb5c;
+        }
+        .small-link {
+            color: #c99f5e;
+            font-size: 0.7rem;
+            margin-top: 15px;
+            display: inline-block;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+        .error {
+            color: #ff5e5e;
+            margin-top: 10px;
+            font-size: 0.8rem;
+        }
+        .user-list {
+            text-align: left;
+            margin-top: 20px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .user-item {
+            background: #1f1913;
+            padding: 10px;
+            border-radius: 20px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .user-item span {
+            font-size: 0.8rem;
+            color: #f0dba0;
+        }
+        .user-item button {
+            width: auto;
+            padding: 5px 12px;
+            font-size: 0.7rem;
+            margin: 0;
+        }
+        .dashboard {
+            display: none;
+            max-width: 1300px;
+            width: 100%;
+            background: #0a0603e6;
+            backdrop-filter: blur(6px);
+            border-radius: 48px;
+            border: 1px solid #d4af37;
+            overflow: hidden;
+        }
+        .header {
+            background: #0c0804;
+            padding: 18px 28px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            border-bottom: 2px solid #c0392b;
+        }
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        .logo-area img {
+            height: 55px;
+            border-radius: 12px;
+            border: 1px solid #d4af37;
+        }
+        .header h2 {
+            font-size: 1.5rem;
+            background: linear-gradient(135deg, #f5cb5c, #c0392b);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .header button {
+            background: #4a351c;
+            border: 1px solid #c0392b;
+            padding: 8px 24px;
+            border-radius: 60px;
+            color: #f3d382;
+            cursor: pointer;
+        }
+        .tabs {
+            display: flex;
+            gap: 12px;
+            padding: 20px 24px 0 24px;
+            flex-wrap: wrap;
+            border-bottom: 1px solid #4a351c;
+        }
+        .tab {
+            background: #15100b;
+            padding: 10px 28px;
+            border-radius: 40px 40px 0 0;
+            cursor: pointer;
+            font-weight: bold;
+            color: #c99f5e;
+            border: 1px solid #4a351c;
+            border-bottom: none;
+        }
+        .tab.active {
+            background: #c0392b;
+            color: #0f0b07;
+            border-color: #d4af37;
+        }
+        .content {
+            padding: 28px;
+        }
+        .panel {
+            display: none;
+        }
+        .panel.active-panel {
+            display: block;
+            animation: fade 0.25s;
+        }
+        @keyframes fade {
+            from { opacity: 0; transform: translateY(8px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
+        .card {
+            background: #0f0b07e6;
+            border-radius: 32px;
+            padding: 24px;
+            border-left: 6px solid #c0392b;
+            margin-bottom: 20px;
+        }
+        .label {
+            font-size: 0.75rem;
+            color: #e6b422;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+        .result {
+            background: #000000cc;
+            border-radius: 28px;
+            padding: 20px;
+            margin-top: 20px;
+            text-align: center;
+            border: 1px solid #c0392b;
+        }
+        .result-big {
+            font-size: 2.5rem;
+            font-weight: 800;
+            letter-spacing: 3px;
+        }
+        .kecil { color: #4d9eff; text-shadow: 0 0 5px #0044ff; }
+        .besar { color: #ff4d4d; text-shadow: 0 0 6px #ff0000; }
+        .small-text {
+            font-size: 0.75rem;
+            color: #d4af37;
+            margin-top: 10px;
+        }
+        .flex-btns {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        .status {
+            background: #0a0502e6;
+            border-radius: 24px;
+            padding: 14px;
+            font-size: 0.85rem;
+            margin-top: 18px;
+            border-left: 4px solid #c0392b;
+            color: #f0dba0;
+        }
+        .gallery {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin: 15px 0;
+        }
+        .gallery img {
+            height: 50px;
+            border-radius: 8px;
+            border: 1px solid #d4af37;
+        }
+        .footer {
+            background: #050302cc;
+            padding: 16px;
+            text-align: center;
+            font-size: 0.7rem;
+            color: #b88b4a;
+            border-top: 1px solid #c0392b;
+        }
+        @media (max-width: 700px) {
+            .tabs { justify-content: center; }
+            .header { flex-direction: column; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+    // ======================= KONFIGURASI ADMIN =======================
+    const ADMIN_PASSWORD = "admin123"; // Ganti dengan password rahasia Anda
+
+    // ======================= SISTEM USER MANAGEMENT =======================
+    function hashPassword(pw) {
+        return btoa(pw + "mafiaSalt");
+    }
+    function verifyPassword(pw, hash) {
+        return hashPassword(pw) === hash;
+    }
+    function getFutureDate(days) {
+        let date = new Date();
+        date.setDate(date.getDate() + days);
+        return date.toISOString().split('T')[0];
+    }
+    function isExpired(expiryDate) {
+        let today = new Date().toISOString().split('T')[0];
+        return expiryDate < today;
+    }
+    function getUsers() {
+        let users = localStorage.getItem("mafia_users");
+        if (!users) {
+            localStorage.setItem("mafia_users", JSON.stringify([]));
+            return [];
+        }
+        return JSON.parse(users);
+    }
+    function saveUsers(users) {
+        localStorage.setItem("mafia_users", JSON.stringify(users));
+    }
+    function authenticateUser(username, password) {
+        let users = getUsers();
+        let user = users.find(u => u.username === username);
+        if (!user) return false;
+        if (!verifyPassword(password, user.passwordHash)) return false;
+        if (isExpired(user.expiry)) return false;
+        return true;
+    }
+    function addUser(username, password, days) {
+        let users = getUsers();
+        if (users.find(u => u.username === username)) return false;
+        users.push({
+            username: username,
+            passwordHash: hashPassword(password),
+            expiry: getFutureDate(days)
+        });
+        saveUsers(users);
+        return true;
+    }
+    function deleteUser(username) {
+        let users = getUsers();
+        let filtered = users.filter(u => u.username !== username);
+        saveUsers(filtered);
+        return true;
+    }
+    function updateUserExpiry(username, days) {
+        let users = getUsers();
+        let user = users.find(u => u.username === username);
+        if (user) {
+            user.expiry = getFutureDate(days);
+            saveUsers(users);
+            return true;
+        }
+        return false;
+    }
+    function getUserExpiry(username) {
+        let users = getUsers();
+        let user = users.find(u => u.username === username);
+        return user ? user.expiry : null;
+    }
+
+    // ======================= RENDER HALAMAN =======================
+    let currentUser = null;
+
+    function renderUserLogin() {
+        document.getElementById("app").innerHTML = `
+            <div class="login-container">
+                <h2>⚜️ FIERLYY BOSS ⚜️</h2>
+                <input type="text" id="loginUsername" placeholder="Username">
+                <input type="password" id="loginPassword" placeholder="Password">
+                <button id="loginBtn">🔪 MASUK KE SARANG 🔪</button>
+                <div id="loginError" class="error"></div>
+                <div class="small-link" id="goToAdmin">🔑 Admin Panel</div>
+            </div>
+        `;
+        document.getElementById("loginBtn").onclick = () => {
+            let user = document.getElementById("loginUsername").value.trim();
+            let pass = document.getElementById("loginPassword").value;
+            if (authenticateUser(user, pass)) {
+                currentUser = user;
+                localStorage.setItem("mafia_current_user", user);
+                renderDashboard();
+            } else {
+                document.getElementById("loginError").innerText = "Username/password salah atau akun expired!";
+            }
+        };
+        document.getElementById("goToAdmin").onclick = () => renderAdminLogin();
+    }
+
+    function renderAdminLogin() {
+        document.getElementById("app").innerHTML = `
+            <div class="login-container">
+                <h2>👑 ADMIN LOGIN</h2>
+                <input type="password" id="adminPassword" placeholder="Password Admin">
+                <button id="adminLoginBtn">MASUK SEBAGAI ADMIN</button>
+                <div id="adminError" class="error"></div>
+                <div class="small-link" id="backToUser">Kembali ke Login User</div>
+            </div>
+        `;
+        document.getElementById("adminLoginBtn").onclick = () => {
+            let pass = document.getElementById("adminPassword").value;
+            if (pass === ADMIN_PASSWORD) {
+                renderAdminPanel();
+            } else {
+                document.getElementById("adminError").innerText = "Password admin salah!";
+            }
+        };
+        document.getElementById("backToUser").onclick = () => renderUserLogin();
+    }
+
+    function renderAdminPanel() {
+        let users = getUsers();
+        document.getElementById("app").innerHTML = `
+            <div class="admin-container">
+                <h2>👑 ADMIN PANEL</h2>
+                <div style="text-align:left; margin-bottom:15px;">
+                    <input type="text" id="newUsername" placeholder="Username baru">
+                    <input type="password" id="newPassword" placeholder="Password">
+                    <input type="number" id="newDays" placeholder="Masa aktif (hari)" value="30">
+                    <button id="addUserBtn">+ TAMBAH USER</button>
+                </div>
+                <div class="user-list" id="userList"></div>
+                <button id="backToLogin">KEMBALI KE LOGIN USER</button>
+                <div id="adminError" class="error"></div>
+            </div>
+        `;
+        function refreshUserList() {
+            let users = getUsers();
+            let container = document.getElementById("userList");
+            if (!container) return;
+            container.innerHTML = users.map(u => `
+                <div class="user-item">
+                    <span><strong>${u.username}</strong> | Expiry: ${u.expiry}</span>
+                    <div style="display:flex; gap:5px;">
+                        <button class="extendBtn" data-user="${u.username}" data-days="7">+7 hari</button>
+                        <button class="extendBtn" data-user="${u.username}" data-days="30">+30 hari</button>
+                        <button class="deleteBtn" data-user="${u.username}">HAPUS</button>
+                    </div>
+                </div>
+            `).join('');
+            document.querySelectorAll('.extendBtn').forEach(btn => {
+                btn.onclick = () => {
+                    let user = btn.dataset.user;
+                    let days = parseInt(btn.dataset.days);
+                    if (updateUserExpiry(user, days)) {
+                        refreshUserList();
+                    } else {
+                        document.getElementById("adminError").innerText = "Gagal update";
+                    }
+                };
+            });
+            document.querySelectorAll('.deleteBtn').forEach(btn => {
+                btn.onclick = () => {
+                    let user = btn.dataset.user;
+                    if (deleteUser(user)) {
+                        refreshUserList();
+                    } else {
+                        document.getElementById("adminError").innerText = "Hapus gagal";
+                    }
+                };
+            });
+        }
+        document.getElementById("addUserBtn").onclick = () => {
+            let uname = document.getElementById("newUsername").value.trim();
+            let pwd = document.getElementById("newPassword").value;
+            let days = parseInt(document.getElementById("newDays").value);
+            if (!uname || !pwd || isNaN(days)) {
+                document.getElementById("adminError").innerText = "Isi semua field!";
+                return;
+            }
+            if (addUser(uname, pwd, days)) {
+                refreshUserList();
+                document.getElementById("newUsername").value = "";
+                document.getElementById("newPassword").value = "";
+                document.getElementById("adminError").innerText = "User berhasil ditambahkan!";
+            } else {
+                document.getElementById("adminError").innerText = "Username sudah ada!";
+            }
+        };
+        document.getElementById("backToLogin").onclick = () => renderUserLogin();
+        refreshUserList();
+    }
+
+    function checkAutoLogin() {
+        let savedUser = localStorage.getItem("mafia_current_user");
+        if (savedUser) {
+            let users = getUsers();
+            let user = users.find(u => u.username === savedUser);
+            if (user && !isExpired(user.expiry)) {
+                currentUser = savedUser;
+                renderDashboard();
+                return true;
+            } else {
+                localStorage.removeItem("mafia_current_user");
+            }
+        }
+        return false;
+    }
+
+    // ======================= DASHBOARD PREDIKSI =======================
+    function renderDashboard() {
+        let expiry = getUserExpiry(currentUser);
+        document.getElementById("app").innerHTML = `
+            <div class="dashboard" style="display:block;">
+                <div class="header">
+                    <div class="logo-area">
+                        <img src="https://img2.pixhost.to/images/7301/716584330_xlyy-sera-assistant.jpg" alt="Logo">
+                        <img src="https://img2.pixhost.to/images/7301/716590463_xlyy-sera-assistant.jpg" alt="Mafia">
+                    </div>
+                    <h2>🔥 FIERLYY BOSS BERAS 🔥</h2>
+                    <div style="display:flex; gap:10px;">
+                        <span style="color:#f3d382;">${currentUser}</span>
+                        <button id="logoutBtn">KELUAR</button>
+                    </div>
+                </div>
+                <div class="tabs">
+                    <div class="tab active" data-tab="ungu">🔫 DADU UNGU (D8)</div>
+                    <div class="tab" data-tab="biru">🌀 9 DADU BIRU (1 MATCH)</div>
+                    <div class="tab" data-tab="mpl">🏆 MPL (BEST OF 3)</div>
+                </div>
+                <div class="content">
+                    <div id="panelUngu" class="panel active-panel">
+                        <div class="card">
+                            <div class="label">🎲 POLA AWAL-AKHIR (angka 1-8) — contoh: 7-3</div>
+                            <input type="text" id="polaUngu" placeholder="7-3" value="5-2">
+                            <button id="predUnguBtn">🔮 PREDIKSI NEXT ROLL (D8)</button>
+                            <div id="hasilUngu" class="result">
+                                <div class="result-big">—</div>
+                                <div class="small-text">Hasil prediksi untuk roll berikutnya</div>
+                            </div>
+                            <div class="status">📌 Weighted trend + histori lokal. KECIL (1-4) / BESAR (5-8).</div>
+                        </div>
+                    </div>
+                    <div id="panelBiru" class="panel">
+                        <div class="card">
+                            <div class="label">🎲 POLA DUA ROLL TERAKHIR (9-54) — contoh: 35-19</div>
+                            <input type="text" id="polaBiru" placeholder="35-19" value="42-27">
+                            <button id="predBiruBtn">⚡ PREDIKSI GAME SELANJUTNYA</button>
+                            <div id="hasilBiru" class="result">
+                                <div class="result-big">—</div>
+                                <div class="small-text">Berdasarkan rumus deviasi & titik jenuh (Anti-RNG)</div>
+                            </div>
+                            <div class="status">📌 Rumus: jarak ke tengah >5 → rebound, else ikuti trend. Range ±3.</div>
+                        </div>
+                    </div>
+                    <div id="panelMpl" class="panel">
+                        <div class="card">
+                            <div class="label">📌 MASUKKAN POLA (AWAL-AKHIR) UNTUK SETIAP MATCH (9-54)</div>
+                            <input type="text" id="mplPola1" placeholder="Match 1: 35-19" value="35-19">
+                            <input type="text" id="mplPola2" placeholder="Match 2: 42-27" value="42-27">
+                            <input type="text" id="mplPola3" placeholder="Match 3 (opsional)" value="">
+                            <div class="flex-btns">
+                                <button id="resetMplBtn" style="background:#4a351c;">⟳ RESET MPL</button>
+                                <button id="determineMplBtn">🔥 TENTUKAN PEMENANG</button>
+                            </div>
+                            <div id="mplStatus" class="status">⚡ Isi M1 & M2. Jika prediksi M1 = M2 → langsung menang tanpa M3.</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="gallery">
+                    <img src="https://img2.pixhost.to/images/7301/716590479_xlyy-sera-assistant.jpg" alt="ashura1">
+                    <img src="https://img2.pixhost.to/images/7301/716590485_xlyy-sera-assistant.jpg" alt="ashura2">
+                    <img src="https://img2.pixhost.to/images/7301/716590523_xlyy-sera-assistant.jpg" alt="ashura3">
+                    <img src="https://img2.pixhost.to/images/7301/716590544_xlyy-sera-assistant.jpg" alt="ashura4">
+                </div>
+                <div class="footer">
+                    ⚜️ Masa aktif sampai: ${expiry} ⚜️<br>
+                    CARA: Pilih menu, masukkan pola, klik prediksi. MPL: jika prediksi M1=M2 langsung menang.
+                </div>
+            </div>
+        `;
+        attachDashboardEvents();
+    }
+
+    function attachDashboardEvents() {
+        const tabs = document.querySelectorAll('.tab');
+        const panels = {
+            ungu: document.getElementById('panelUngu'),
+            biru: document.getElementById('panelBiru'),
+            mpl: document.getElementById('panelMpl')
+        };
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                Object.keys(panels).forEach(p => panels[p].classList.remove('active-panel'));
+                panels[tab.dataset.tab].classList.add('active-panel');
+            });
+        });
+        document.getElementById('logoutBtn').onclick = () => {
+            localStorage.removeItem("mafia_current_user");
+            currentUser = null;
+            renderUserLogin();
+        };
+        document.getElementById('predUnguBtn').addEventListener('click', () => {
+            let val = document.getElementById('polaUngu').value.trim();
+            if (!val.includes('-')) { alert("Format: angka-angka (1-8)"); return; }
+            let [a,b] = val.split('-').map(Number);
+            if (isNaN(a)||isNaN(b)||a<1||a>8||b<1||b>8) { alert("Angka 1-8"); return; }
+            let { hasil, confidence, rangeMin, rangeMax } = prediksiUngu(a,b);
+            document.getElementById('hasilUngu').innerHTML = `
+                <div class="result-big ${hasil === 'BESAR' ? 'besar' : 'kecil'}">${hasil}</div>
+                <div class="small-text">🎯 RANGE ANGKA: ${rangeMin} - ${rangeMax} | Akurasi: ${confidence}%</div>
+                <div class="small-text">📌 Prediksi untuk roll berikutnya (D8)</div>
+            `;
+        });
+        document.getElementById('predBiruBtn').addEventListener('click', () => {
+            let pola = document.getElementById('polaBiru').value.trim();
+            let pred = prediksiMafia(pola);
+            if (!pred) { alert("Format salah! Contoh: 35-19 (9-54)"); return; }
+            document.getElementById('hasilBiru').innerHTML = `
+                <div class="result-big ${pred.hasil === 'BESAR' ? 'besar' : 'kecil'}">${pred.hasil}</div>
+                <div class="small-text">🎯 RENTANG ANGKA: ${pred.rangeMin} - ${pred.rangeMax} | Akurasi: ${pred.akurasi}%</div>
+                <div class="small-text">📌 Prediksi untuk roll berikutnya (9 dadu biru)</div>
+            `;
+        });
+        document.getElementById('resetMplBtn').onclick = () => {
+            document.getElementById('mplPola1').value = '';
+            document.getElementById('mplPola2').value = '';
+            document.getElementById('mplPola3').value = '';
+            document.getElementById('mplStatus').innerHTML = "⚡ MPL direset. Isi M1 & M2. Jika prediksi sama → langsung menang.";
+        };
+        document.getElementById('determineMplBtn').onclick = () => {
+            let p1 = document.getElementById('mplPola1').value.trim();
+            let p2 = document.getElementById('mplPola2').value.trim();
+            let p3 = document.getElementById('mplPola3').value.trim();
+            let statusDiv = document.getElementById('mplStatus');
+            let pred1 = getPred(p1);
+            let pred2 = getPred(p2);
+            if (!pred1 || !pred2) {
+                statusDiv.innerHTML = "⚠️ Masukkan pola valid M1 & M2 (contoh: 35-19)";
+                return;
+            }
+            if (pred1 === pred2) {
+                statusDiv.innerHTML = `🏆 PEMENANG MPL: ${pred1} 🏆 (karena prediksi M1 dan M2 sama, langsung menang)<br>🔮 Prediksi M1: ${pred1} | M2: ${pred2}`;
+                return;
+            }
+            if (!p3) {
+                statusDiv.innerHTML = `⚔️ Prediksi M1 = ${pred1}, M2 = ${pred2} (berbeda). Masukkan pola M3.`;
+                return;
+            }
+            let pred3 = getPred(p3);
+            if (!pred3) {
+                statusDiv.innerHTML = "❌ Pola M3 tidak valid.";
+                return;
+            }
+            let countB = (pred1==='BESAR'?1:0)+(pred2==='BESAR'?1:0)+(pred3==='BESAR'?1:0);
+            let countK = 3 - countB;
+            let winner = countB > countK ? "BESAR" : (countK > countB ? "KECIL" : "DRAW");
+            statusDiv.innerHTML = `🏆 PEMENANG MPL: ${winner} 🏆<br>📊 Hasil prediksi: M1=${pred1}, M2=${pred2}, M3=${pred3} → (B:${countB}, K:${countK})`;
+        };
+    }
+
+    function prediksiUngu(awal, akhir) {
+        let history = JSON.parse(localStorage.getItem("historyUngu_" + currentUser) || "[]");
+        let weightedTrend = akhir - awal;
+        if (history.length > 0) {
+            let all = [...history, {awal, akhir}];
+            let sumWeight = 0, sumDiff = 0;
+            for (let i=0; i<all.length; i++) {
+                let weight = i+1;
+                let diff = all[i].akhir - all[i].awal;
+                sumDiff += diff * weight;
+                sumWeight += weight;
+            }
+            weightedTrend = sumDiff / sumWeight;
+        }
+        history.push({awal, akhir});
+        if(history.length>3) history.shift();
+        localStorage.setItem("historyUngu_" + currentUser, JSON.stringify(history));
+        let hasil = "", confidence = 0;
+        let jarak = akhir - 4.5;
+        if (akhir >= 7) { hasil = "KECIL"; confidence = 94; }
+        else if (akhir <= 2) { hasil = "BESAR"; confidence = 94; }
+        else if (akhir >= 6) { hasil = "KECIL"; confidence = 85; }
+        else if (akhir <= 3) { hasil = "BESAR"; confidence = 85; }
+        else if (jarak > 1.5) { hasil = "KECIL"; confidence = 72 + Math.min(20, Math.abs(weightedTrend)*4); }
+        else if (jarak < -1.5) { hasil = "BESAR"; confidence = 72 + Math.min(20, Math.abs(weightedTrend)*4); }
+        else {
+            if (weightedTrend > 0.3) { hasil = "BESAR"; confidence = 68 + Math.min(25, weightedTrend*10); }
+            else if (weightedTrend < -0.3) { hasil = "KECIL"; confidence = 68 + Math.min(25, Math.abs(weightedTrend)*10); }
+            else { hasil = jarak > 0 ? "KECIL" : "BESAR"; confidence = 65; }
+        }
+        confidence = Math.min(98, Math.floor(confidence));
+        let rangeMin, rangeMax;
+        if (hasil === "BESAR") {
+            let base = Math.min(7, Math.max(5, akhir + Math.sign(weightedTrend)*1));
+            rangeMin = Math.max(5, base);
+            rangeMax = Math.min(8, rangeMin+2);
+            if(rangeMax - rangeMin < 2) rangeMax = Math.min(8, rangeMax+1);
+            rangeMin = Math.max(5, rangeMin);
+            rangeMax = Math.min(8, rangeMax);
+        } else {
+            let base = Math.max(1, Math.min(3, akhir + Math.sign(weightedTrend)*1));
+            rangeMin = Math.max(1, base);
+            rangeMax = Math.min(4, rangeMin+2);
+            if(rangeMax - rangeMin < 2) rangeMin = Math.max(1, rangeMin-1);
+            rangeMin = Math.min(4, rangeMin);
+            rangeMax = Math.min(4, rangeMax);
+        }
+        if(rangeMin > rangeMax) { let t=rangeMin; rangeMin=rangeMax; rangeMax=t; }
+        return { hasil, confidence, rangeMin, rangeMax };
+    }
+    function prediksiMafia(polaStr) {
+        if (!polaStr || !polaStr.includes('-')) return null;
+        let [awal, akhir] = polaStr.split('-').map(num => parseInt(num));
+        if (isNaN(awal) || isNaN(akhir)) return null;
+        if (awal < 9 || awal > 54 || akhir < 9 || akhir > 54) return null;
+        let titikTengah = 31.5;
+        let trend = akhir - awal;
+        let jarakKeTengah = akhir - titikTengah;
+        let hasil = "";
+        if (jarakKeTengah > 5) hasil = "KECIL";
+        else if (jarakKeTengah < -5) hasil = "BESAR";
+        else hasil = trend >= 0 ? "BESAR" : "KECIL";
+        let rangeMin, rangeMax;
+        if (hasil === "BESAR") {
+            rangeMin = Math.max(32, Math.min(51, akhir + (trend > 0 ? 3 : 6)));
+        } else {
+            rangeMin = Math.max(9, Math.min(28, akhir - (trend < 0 ? 3 : 6)));
+        }
+        rangeMax = rangeMin + 3;
+        rangeMin = Math.min(54, Math.max(9, rangeMin));
+        rangeMax = Math.min(54, Math.max(9, rangeMax));
+        if(rangeMin > rangeMax) { let t=rangeMin; rangeMin=rangeMax; rangeMax=t; }
+        let akurasi = Math.min(98, Math.floor(70 + Math.abs(jarakKeTengah)));
+        return { hasil, rangeMin, rangeMax, akurasi };
+    }
+    function getPred(pola) {
+        let p = prediksiMafia(pola);
+        return p ? p.hasil : null;
+    }
+
+    // START
+    if (!checkAutoLogin()) {
+        renderUserLogin();
+    }
+</script>
+</body>
+  </html>
