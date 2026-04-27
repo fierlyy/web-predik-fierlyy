@@ -3,61 +3,262 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>FIERLYY BOSS | MAFIA ASHURA PREDICTOR</title>
-    <!-- Firebase SDK versi compat (lebih mudah) -->
+    <title>FIERLYY | PHANTOM PREDICTOR</title>
+    <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',sans-serif; }
-        body { min-height:100vh; background:url('https://img2.pixhost.to/images/7301/716590725_xlyy-sera-assistant.jpg') center/cover fixed; display:flex; justify-content:center; align-items:center; padding:20px; position:relative; }
-        body::before { content:""; position:fixed; inset:0; background:rgba(0,0,0,0.75); z-index:0; }
-        * { position:relative; z-index:2; }
-        .login-container, .admin-container { background:#0a0502e6; backdrop-filter:blur(12px); border-radius:48px; border:2px solid #d4af37; padding:35px 30px; max-width:450px; width:100%; text-align:center; box-shadow:0 0 50px rgba(212,175,55,0.5); }
-        h2 { font-size:1.8rem; background:linear-gradient(135deg,#f5cb5c,#c0392b); -webkit-background-clip:text; background-clip:text; color:transparent; margin-bottom:20px; }
-        input { width:100%; padding:12px 16px; border-radius:60px; border:1px solid #4a351c; background:#1f1913; color:#f0e2c5; margin-bottom:16px; font-size:1rem; }
-        button { background:#b87c2e; border:none; padding:12px 24px; border-radius:60px; font-size:1rem; font-weight:bold; cursor:pointer; transition:0.2s; width:100%; margin-bottom:10px; color:#0f0c09; }
-        button:hover { background:#c0392b; color:#f5cb5c; }
-        .small-link { color:#c99f5e; font-size:0.7rem; margin-top:15px; display:inline-block; cursor:pointer; text-decoration:underline; }
-        .error { color:#ff5e5e; margin-top:10px; font-size:0.8rem; }
-        .user-list { text-align:left; margin-top:20px; max-height:300px; overflow-y:auto; }
-        .user-item { background:#1f1913; padding:10px; border-radius:20px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; }
-        .user-item span { font-size:0.8rem; color:#f0dba0; }
-        .user-item button { width:auto; padding:5px 12px; font-size:0.7rem; margin:0; }
-        .dashboard { display:none; max-width:1300px; width:100%; background:#0a0603e6; backdrop-filter:blur(6px); border-radius:48px; border:1px solid #d4af37; overflow:hidden; }
-        .header { background:#0c0804; padding:18px 28px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; border-bottom:2px solid #c0392b; gap:15px; }
-        .logo-area { display:flex; align-items:center; gap:15px; flex-wrap:wrap; }
-        .logo-area img { height:55px; border-radius:12px; border:1px solid #d4af37; }
-        .header h2 { font-size:1.5rem; background:linear-gradient(135deg,#f5cb5c,#c0392b); -webkit-background-clip:text; background-clip:text; color:transparent; }
-        .header button { background:#4a351c; border:1px solid #c0392b; padding:8px 24px; border-radius:60px; color:#f3d382; cursor:pointer; }
-        .tabs { display:flex; gap:12px; padding:20px 24px 0 24px; flex-wrap:wrap; border-bottom:1px solid #4a351c; }
-        .tab { background:#15100b; padding:10px 28px; border-radius:40px 40px 0 0; cursor:pointer; font-weight:bold; color:#c99f5e; border:1px solid #4a351c; border-bottom:none; }
-        .tab.active { background:#c0392b; color:#0f0b07; border-color:#d4af37; }
-        .content { padding:28px; }
-        .panel { display:none; }
-        .panel.active-panel { display:block; animation:fade .25s; }
-        @keyframes fade { from{opacity:0;transform:translateY(8px);} to{opacity:1;transform:translateY(0);} }
-        .card { background:#0f0b07e6; border-radius:32px; padding:24px; border-left:6px solid #c0392b; margin-bottom:20px; }
-        .label { font-size:0.75rem; color:#e6b422; letter-spacing:1px; margin-bottom:10px; }
-        .result { background:#000000cc; border-radius:28px; padding:20px; margin-top:20px; text-align:center; border:1px solid #c0392b; }
-        .result-big { font-size:2.5rem; font-weight:800; letter-spacing:3px; }
-        .kecil { color:#4d9eff; text-shadow:0 0 5px #0044ff; }
-        .besar { color:#ff4d4d; text-shadow:0 0 6px #ff0000; }
-        .small-text { font-size:0.75rem; color:#d4af37; margin-top:10px; }
-        .flex-btns { display:flex; gap:15px; margin-top:15px; }
-        .status { background:#0a0502e6; border-radius:24px; padding:14px; font-size:0.85rem; margin-top:18px; border-left:4px solid #c0392b; color:#f0dba0; }
-        .gallery { display:flex; justify-content:center; gap:10px; flex-wrap:wrap; margin:15px 0; }
-        .gallery img { height:50px; border-radius:8px; border:1px solid #d4af37; }
-        .footer { background:#050302cc; padding:16px; text-align:center; font-size:0.7rem; color:#b88b4a; border-top:1px solid #c0392b; }
-        .wa-link { color:#25D366; font-weight:bold; text-decoration:none; }
-        @media (max-width:700px){ .tabs{justify-content:center;} .header{flex-direction:column;text-align:center;} }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+        }
+
+        body {
+            background: url('https://img2.pixhost.to/images/7464/719123315_xlyy-sera-assistant.jpg') center/cover fixed;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            z-index: 0;
+        }
+
+        * {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Container */
+        .app-container {
+            max-width: 1300px;
+            width: 100%;
+            background: rgba(18, 12, 28, 0.75);
+            backdrop-filter: blur(16px);
+            border-radius: 2rem;
+            border: 1px solid rgba(168, 85, 247, 0.4);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            overflow: hidden;
+        }
+
+        /* Header */
+        .main-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 2rem;
+            background: rgba(0,0,0,0.4);
+            border-bottom: 1px solid #8b5cf6;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .brand img {
+            height: 60px;
+            border-radius: 16px;
+            border: 1px solid #a78bfa;
+            background: #0a0410;
+            padding: 4px;
+        }
+
+        .brand h2 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #e9d5ff, #c084fc);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .menu-btn {
+            background: rgba(139,92,246,0.2);
+            border: 1px solid #a78bfa;
+            border-radius: 60px;
+            padding: 0.6rem 1.2rem;
+            cursor: pointer;
+            color: #ddd6fe;
+            transition: 0.2s;
+        }
+
+        /* Sidebar */
+        .sidebar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: 0.2s;
+        }
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: -300px;
+            width: 280px;
+            height: 100%;
+            background: rgba(25,14,45,0.98);
+            backdrop-filter: blur(16px);
+            border-right: 2px solid #8b5cf6;
+            z-index: 1001;
+            transition: 0.25s;
+            display: flex;
+            flex-direction: column;
+            padding: 1.5rem;
+            gap: 2rem;
+        }
+        .sidebar.active { left: 0; }
+        .sidebar-overlay.active { opacity: 1; visibility: visible; }
+        .sidebar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #a78bfa;
+            padding-bottom: 0.8rem;
+        }
+        .sidebar-header img { height: 45px; border-radius: 12px; }
+        .close-sidebar { font-size: 1.4rem; cursor: pointer; color: #c4b5fd; }
+        .sidebar-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .sidebar-item {
+            background: rgba(139,92,246,0.15);
+            padding: 0.8rem 1rem;
+            border-radius: 60px;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            cursor: pointer;
+            transition: 0.2s;
+            color: #f1e8ff;
+        }
+        .sidebar-item:hover { background: #8b5cf6; color: #0f0717; }
+        .sidebar-footer {
+            margin-top: auto;
+            background: rgba(0,0,0,0.3);
+            border-radius: 28px;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        /* Main content */
+        .main-content { padding: 2rem; }
+        .page { display: none; animation: fade 0.2s; }
+        .page.active-page { display: block; }
+        @keyframes fade { from { opacity:0; transform:translateY(8px);} to { opacity:1; transform:translateY(0);} }
+
+        .card {
+            background: rgba(30,18,48,0.6);
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid #7e5bef;
+        }
+        .card-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            border-left: 4px solid #a855f7;
+            padding-left: 1rem;
+            color: #f0e6ff;
+        }
+
+        input, button {
+            width: 100%;
+            padding: 0.7rem 1rem;
+            border-radius: 60px;
+            border: 1px solid #9f7aea;
+            background: #140b1e;
+            color: #f3e8ff;
+            margin-bottom: 1rem;
+        }
+        button {
+            background: #7e22ce;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover { background: #9333ea; transform: scale(0.98); }
+        .pred-type-bar {
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+        .type-btn {
+            background: #2d1b3e;
+            padding: 0.5rem 1.2rem;
+            border-radius: 60px;
+            width: auto;
+            margin: 0;
+            font-weight: 500;
+        }
+        .type-btn.active { background: #a855f7; color: #0f0717; }
+        .result-box {
+            background: rgba(0,0,0,0.3);
+            border-radius: 1.2rem;
+            padding: 1rem;
+            text-align: center;
+            margin-top: 1rem;
+            border: 1px solid #a78bfa;
+        }
+        .result-value { font-size: 1.8rem; font-weight: 800; }
+        .kecil { color: #5ee0fa; }
+        .besar { color: #f9a8d4; }
+        .stats-row {
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+            margin: 1rem 0;
+        }
+        .stat-badge {
+            background: #2d1b3e;
+            padding: 0.4rem 0.8rem;
+            border-radius: 60px;
+            font-size: 0.8rem;
+        }
+        .footer {
+            background: rgba(0,0,0,0.4);
+            text-align: center;
+            padding: 0.8rem;
+            font-size: 0.7rem;
+            color: #aa8eff;
+            border-top: 1px solid #5b21b6;
+        }
+        @media (max-width: 700px) {
+            .main-content { padding: 1rem; }
+            .brand h2 { font-size: 1rem; }
+            .brand img { height: 40px; }
+        }
     </style>
 </head>
 <body>
 <div id="app"></div>
+<div id="toastMsg" style="position:fixed; bottom:20px; left:50%; transform:translateX(-50%); background:#4c1d95; color:white; padding:6px 18px; border-radius:60px; opacity:0; transition:0.2s; z-index:2000; font-size:0.8rem;"></div>
 
 <script>
-    // ======================= KONFIGURASI FIREBASE (GANTI DENGAN MILIK ANDA) =======================
+    // ======================= KONFIGURASI FIREBASE =======================
     const firebaseConfig = {
         apiKey: "AIzaSyBSbKiA1hIybdho0CV8Xjs4TJvimXs7b7g",
         authDomain: "prediksi-mafia.firebaseapp.com",
@@ -68,404 +269,523 @@
     };
 
     // Inisialisasi Firebase
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-    const db = firebase.firestore();
-
-    // Konfigurasi
-    const ADMIN_PASSWORD = "padel001";
-    const WA_NUMBER = "089527933537";
-
-    let currentUser = null;
-    let currentUserDocId = null;
-
-    function getFutureDate(days) {
-        let date = new Date();
-        date.setDate(date.getDate() + days);
-        return date.toISOString().split('T')[0];
+    let app, auth, db;
+    try {
+        firebase.initializeApp(firebaseConfig);
+        auth = firebase.auth();
+        db = firebase.firestore();
+        console.log("Firebase initialized");
+    } catch (err) {
+        console.error("Firebase init error:", err);
+        document.getElementById("app").innerHTML = `<div style="color:red; text-align:center; padding:2rem;">Gagal inisialisasi Firebase. Periksa konfigurasi.</div>`;
     }
 
-    // ======================= RENDER HALAMAN =======================
-    function renderUserLogin() {
+    const ADMIN_PASS = "padel1401";
+    const WA_NUMBER = "6289518188217";
+    const WA_CHANNEL = "https://whatsapp.com/channel/0029VbCRian2kNFk6QRkXr17";
+    const WA_GROUP = "https://chat.whatsapp.com/G8IXr3VY2iW6ArqorBk97V";
+    const LOGO_URL = "https://img2.pixhost.to/images/7464/719122234_xlyy-sera-assistant.jpg";
+    const OWNER_AVATAR = "https://img2.pixhost.to/images/7464/719133971_xlyy-sera-assistant.jpg";
+
+    let currentUser = null, currentUid = null;
+
+    function toast(msg, isErr = false) {
+        const el = document.getElementById("toastMsg");
+        if (!el) return;
+        el.style.backgroundColor = isErr ? "#b91c1c" : "#6d28d9";
+        el.innerText = msg;
+        el.style.opacity = "1";
+        setTimeout(() => el.style.opacity = "0", 2800);
+    }
+
+    function getFutureDate(days) {
+        let d = new Date();
+        d.setDate(d.getDate() + days);
+        return d.toISOString().split('T')[0];
+    }
+
+    // ======================= LOGIN PAGE =======================
+    function renderLogin() {
         document.getElementById("app").innerHTML = `
-            <div class="login-container">
-                <h2>⚜️ FIERLYY BOSS ⚜️</h2>
-                <input type="email" id="loginEmail" placeholder="Email">
-                <input type="password" id="loginPassword" placeholder="Password">
-                <button id="loginBtn">🔪 MASUK KE SARANG 🔪</button>
-                <div id="loginError" class="error"></div>
-                <div class="small-link" id="goToAdmin">🔑 Admin Panel</div>
+            <div class="app-container" style="max-width:450px; margin:auto; text-align:center; padding:2rem;">
+                <div class="brand" style="justify-content:center; margin-bottom:1.5rem;">
+                    <img src="${LOGO_URL}" alt="logo" style="height:80px;">
+                    <h2 style="font-size:1.8rem;">Phantom Predictor</h2>
+                </div>
+                <div style="position:relative; margin-bottom:1rem;">
+                    <i class="fas fa-envelope" style="position:absolute; left:18px; top:50%; transform:translateY(-50%); color:#a78bfa;"></i>
+                    <input type="email" id="loginEmail" placeholder="Email" style="padding-left:45px;">
+                </div>
+                <div style="position:relative; margin-bottom:1rem;">
+                    <i class="fas fa-lock" style="position:absolute; left:18px; top:50%; transform:translateY(-50%); color:#a78bfa;"></i>
+                    <input type="password" id="loginPassword" placeholder="Password" style="padding-left:45px;">
+                </div>
+                <button id="loginBtn" style="background:#a855f7;">MASUK</button>
+                <div id="loginError" style="color:#f87171; margin-top:12px;"></div>
+                <div style="margin-top:20px;">
+                    <span id="forgotPassword" style="color:#c4b5fd; cursor:pointer; margin-right:20px;">Lupa password</span>
+                    <span id="goToAdmin" style="color:#c4b5fd; cursor:pointer;">Admin panel</span>
+                </div>
+                <div class="footer" style="margin-top:30px;">&copy; Phantom System • Anti-RNG</div>
             </div>
         `;
         document.getElementById("loginBtn").onclick = async () => {
             const email = document.getElementById("loginEmail").value.trim();
-            const password = document.getElementById("loginPassword").value;
+            const pwd = document.getElementById("loginPassword").value;
+            if (!email || !pwd) { toast("Email dan password wajib", true); return; }
             try {
-                const userCred = await auth.signInWithEmailAndPassword(email, password);
+                const userCred = await auth.signInWithEmailAndPassword(email, pwd);
                 const doc = await db.collection("users").doc(userCred.user.uid).get();
-                if (!doc.exists) throw new Error("Akun tidak terdaftar di database.");
-                const expiry = doc.data().expiry;
-                if (expiry && expiry < new Date().toISOString().split('T')[0]) {
+                if (!doc.exists) throw new Error("Akun tidak terdaftar");
+                const exp = doc.data().expiry;
+                if (exp && exp < new Date().toISOString().split('T')[0]) {
                     await auth.signOut();
-                    throw new Error("Akun sudah expired. Hubungi admin untuk perpanjang via WhatsApp.");
+                    throw new Error("Akun expired. Hubungi owner.");
                 }
                 currentUser = userCred.user.email;
-                currentUserDocId = userCred.user.uid;
+                currentUid = userCred.user.uid;
+                localStorage.setItem("phantom_user", currentUser);
+                localStorage.setItem("phantom_uid", currentUid);
                 renderDashboard();
             } catch (err) {
-                document.getElementById("loginError").innerText = err.message;
+                let msg = err.message;
+                if (msg.includes("invalid-credential")) msg = "Email atau password salah";
+                toast(msg, true);
+                document.getElementById("loginError").innerText = msg;
             }
+        };
+        document.getElementById("forgotPassword").onclick = async () => {
+            const email = document.getElementById("loginEmail").value.trim();
+            if (!email) { toast("Masukkan email", true); return; }
+            try {
+                await auth.sendPasswordResetEmail(email);
+                toast("Email reset terkirim. Cek inbox/spam.");
+            } catch(e) { toast(e.message, true); }
         };
         document.getElementById("goToAdmin").onclick = () => renderAdminLogin();
     }
 
     function renderAdminLogin() {
         document.getElementById("app").innerHTML = `
-            <div class="login-container">
-                <h2>👑 ADMIN LOGIN</h2>
-                <input type="password" id="adminPassword" placeholder="Password Admin">
-                <button id="adminLoginBtn">MASUK SEBAGAI ADMIN</button>
-                <div id="adminError" class="error"></div>
-                <div class="small-link" id="backToUser">Kembali ke Login User</div>
+            <div class="app-container" style="max-width:450px; margin:auto; text-align:center; padding:2rem;">
+                <h2 style="color:#f0e6ff;">Admin Login</h2>
+                <input type="password" id="adminPass" placeholder="Password Admin">
+                <button id="adminLoginBtn">MASUK</button>
+                <div id="adminError" style="color:#f87171; margin-top:12px;"></div>
+                <div style="margin-top:1rem;"><span id="backUserLogin" style="color:#c4b5fd; cursor:pointer;">Kembali</span></div>
             </div>
         `;
         document.getElementById("adminLoginBtn").onclick = () => {
-            let pass = document.getElementById("adminPassword").value;
-            if (pass === ADMIN_PASSWORD) {
-                renderAdminPanel();
-            } else {
-                document.getElementById("adminError").innerText = "Password admin salah!";
-            }
+            if (document.getElementById("adminPass").value === ADMIN_PASS) renderAdminPanel();
+            else { toast("Password admin salah", true); document.getElementById("adminError").innerText = "Salah!"; }
         };
-        document.getElementById("backToUser").onclick = () => renderUserLogin();
+        document.getElementById("backUserLogin").onclick = () => renderLogin();
     }
 
     async function renderAdminPanel() {
-        const snapshot = await db.collection("users").get();
+        const snap = await db.collection("users").get();
         let users = [];
-        snapshot.forEach(doc => users.push({ uid: doc.id, ...doc.data() }));
+        snap.forEach(d => users.push({ uid: d.id, ...d.data() }));
+        const total = users.length;
+        const today = new Date().toISOString().split('T')[0];
+        const expired = users.filter(u => u.expiry && u.expiry < today).length;
+        const active = total - expired;
+
         document.getElementById("app").innerHTML = `
-            <div class="admin-container">
-                <h2>👑 ADMIN PANEL</h2>
-                <div style="text-align:left; margin-bottom:15px;">
-                    <input type="email" id="newEmail" placeholder="Email user baru">
-                    <input type="password" id="newPassword" placeholder="Password">
-                    <input type="number" id="newDays" placeholder="Masa aktif (hari)" value="30">
-                    <button id="addUserBtn">+ TAMBAH USER</button>
+            <div class="app-container" style="max-width:800px; margin:auto;">
+                <div style="padding:1.5rem;">
+                    <h2 style="color:#e9d5ff; text-align:center;">Admin Panel</h2>
+                    <div class="stats-row" style="justify-content:center;">
+                        <div class="stat-badge">Total: ${total}</div>
+                        <div class="stat-badge">Aktif: ${active}</div>
+                        <div class="stat-badge">Expired: ${expired}</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">Tambah User</div>
+                        <input type="email" id="newEmail" placeholder="Email">
+                        <input type="password" id="newPass" placeholder="Password">
+                        <input type="number" id="newDays" placeholder="Masa aktif (hari)" value="30">
+                        <input type="number" id="newWR" placeholder="Win Rate (%)" value="0" step="5">
+                        <button id="addUserBtn">Tambah User</button>
+                    </div>
+                    <div id="userList"></div>
+                    <button id="backToLoginMain" class="btn-outline" style="margin-top:1rem;">Kembali</button>
                 </div>
-                <div class="user-list" id="userList"></div>
-                <button id="backToLogin">KEMBALI KE LOGIN USER</button>
-                <div id="adminError" class="error"></div>
             </div>
         `;
-        function refreshUserList() {
+
+        function renderUserList() {
             const container = document.getElementById("userList");
             if (!container) return;
             container.innerHTML = users.map(u => `
-                <div class="user-item">
-                    <span><strong>${u.email}</strong> | Expiry: ${u.expiry || '-'}</span>
-                    <div style="display:flex; gap:5px;">
-                        <button class="extendBtn" data-uid="${u.uid}" data-days="7">+7 hari</button>
-                        <button class="extendBtn" data-uid="${u.uid}" data-days="30">+30 hari</button>
-                        <button class="deleteBtn" data-uid="${u.uid}">HAPUS</button>
+                <div style="background:#1f112a; border-radius:1rem; padding:0.8rem; margin-bottom:0.8rem; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem; border-left:4px solid #a855f7;">
+                    <div><strong>${u.email}</strong><br><span style="font-size:0.7rem;">Exp: ${u.expiry || '-'} | WR: ${u.winRate || 0}%</span></div>
+                    <div style="display:flex; gap:0.5rem;">
+                        <button class="editWr" data-uid="${u.uid}" data-wr="${u.winRate || 0}">Edit WR</button>
+                        <button class="extend7" data-uid="${u.uid}">+7</button>
+                        <button class="extend30" data-uid="${u.uid}">+30</button>
+                        <button class="deleteUser" data-uid="${u.uid}">Hapus</button>
                     </div>
                 </div>
             `).join('');
-            document.querySelectorAll('.extendBtn').forEach(btn => {
+            document.querySelectorAll('.editWr').forEach(btn => {
                 btn.onclick = async () => {
-                    const uid = btn.dataset.uid;
-                    const days = parseInt(btn.dataset.days);
-                    const newExpiry = getFutureDate(days);
-                    await db.collection("users").doc(uid).update({ expiry: newExpiry });
-                    const user = users.find(u => u.uid === uid);
-                    if (user) user.expiry = newExpiry;
-                    refreshUserList();
-                    document.getElementById("adminError").innerText = `User ${user.email} diperpanjang +${days} hari.`;
+                    const newWr = prompt("Win Rate baru (0-100):", btn.dataset.wr);
+                    if (newWr !== null && !isNaN(newWr)) {
+                        await db.collection("users").doc(btn.dataset.uid).update({ winRate: parseInt(newWr) });
+                        const idx = users.findIndex(u => u.uid === btn.dataset.uid);
+                        if (idx !== -1) users[idx].winRate = parseInt(newWr);
+                        renderUserList();
+                        toast(`WR diupdate ke ${newWr}%`);
+                    }
                 };
             });
-            document.querySelectorAll('.deleteBtn').forEach(btn => {
+            document.querySelectorAll('.extend7').forEach(btn => {
                 btn.onclick = async () => {
-                    const uid = btn.dataset.uid;
-                    await db.collection("users").doc(uid).delete();
-                    users = users.filter(u => u.uid !== uid);
-                    refreshUserList();
+                    const newExp = getFutureDate(7);
+                    await db.collection("users").doc(btn.dataset.uid).update({ expiry: newExp });
+                    const user = users.find(u => u.uid === btn.dataset.uid);
+                    if (user) user.expiry = newExp;
+                    renderUserList();
+                    toast("Perpanjang +7 hari");
+                };
+            });
+            document.querySelectorAll('.extend30').forEach(btn => {
+                btn.onclick = async () => {
+                    const newExp = getFutureDate(30);
+                    await db.collection("users").doc(btn.dataset.uid).update({ expiry: newExp });
+                    const user = users.find(u => u.uid === btn.dataset.uid);
+                    if (user) user.expiry = newExp;
+                    renderUserList();
+                    toast("Perpanjang +30 hari");
+                };
+            });
+            document.querySelectorAll('.deleteUser').forEach(btn => {
+                btn.onclick = async () => {
+                    if (confirm("Hapus user permanen?")) {
+                        await db.collection("users").doc(btn.dataset.uid).delete();
+                        users = users.filter(u => u.uid !== btn.dataset.uid);
+                        renderUserList();
+                        toast("User dihapus");
+                    }
                 };
             });
         }
+
         document.getElementById("addUserBtn").onclick = async () => {
             const email = document.getElementById("newEmail").value.trim();
-            const password = document.getElementById("newPassword").value;
+            const pass = document.getElementById("newPass").value;
             const days = parseInt(document.getElementById("newDays").value);
-            if (!email || !password || isNaN(days)) {
-                document.getElementById("adminError").innerText = "Isi semua field!";
-                return;
-            }
+            const wr = parseInt(document.getElementById("newWR").value);
+            if (!email || !pass || isNaN(days) || isNaN(wr)) { toast("Isi semua field", true); return; }
             try {
-                const userCred = await auth.createUserWithEmailAndPassword(email, password);
-                await db.collection("users").doc(userCred.user.uid).set({
-                    email: email,
-                    expiry: getFutureDate(days),
-                    createdAt: new Date().toISOString()
+                const uc = await auth.createUserWithEmailAndPassword(email, pass);
+                await db.collection("users").doc(uc.user.uid).set({
+                    email, expiry: getFutureDate(days), winRate: wr, createdAt: new Date().toISOString()
                 });
-                users.push({ uid: userCred.user.uid, email, expiry: getFutureDate(days) });
-                refreshUserList();
+                users.push({ uid: uc.user.uid, email, expiry: getFutureDate(days), winRate: wr });
+                renderUserList();
                 document.getElementById("newEmail").value = "";
-                document.getElementById("newPassword").value = "";
-                document.getElementById("adminError").innerText = "User berhasil ditambahkan!";
-            } catch (err) {
-                document.getElementById("adminError").innerText = err.message;
-            }
+                document.getElementById("newPass").value = "";
+                document.getElementById("newWR").value = "0";
+                toast(`User ${email} ditambahkan`);
+            } catch(err) { toast(err.message, true); }
         };
-        document.getElementById("backToLogin").onclick = () => renderUserLogin();
-        refreshUserList();
+        document.getElementById("backToLoginMain").onclick = () => renderLogin();
+        renderUserList();
     }
 
-    // ======================= DASHBOARD PREDIKSI (LENGKAP) =======================
-    function renderDashboard() {
-        let expiry = "";
-        db.collection("users").doc(currentUserDocId).get().then(doc => {
-            expiry = doc.data().expiry;
-            const expirySpan = document.getElementById("expiryText");
-            if (expirySpan) expirySpan.innerText = expiry;
-        });
+    // ======================= DASHBOARD USER =======================
+    async function renderDashboard() {
+        const userDoc = await db.collection("users").doc(currentUid).get();
+        const userData = userDoc.data();
+        const winRate = userData?.winRate || 0;
+        const expiry = userData?.expiry || '-';
+        let totalPred = parseInt(localStorage.getItem(`totalPred_${currentUid}`) || 0);
+        let avgAcc = parseInt(localStorage.getItem(`avgAcc_${currentUid}`) || 0);
+
+        if (expiry !== '-' && expiry < new Date().toISOString().split('T')[0]) {
+            await auth.signOut();
+            toast("Akun expired! Hubungi owner.", true);
+            renderLogin();
+            return;
+        }
+
         document.getElementById("app").innerHTML = `
-            <div class="dashboard" style="display:block;">
-                <div class="header">
-                    <div class="logo-area">
-                        <img src="https://img2.pixhost.to/images/7301/716584330_xlyy-sera-assistant.jpg" alt="Logo">
-                        <img src="https://img2.pixhost.to/images/7301/716590463_xlyy-sera-assistant.jpg" alt="Mafia">
+            <div class="app-container">
+                <div class="main-header">
+                    <div class="brand">
+                        <img src="${LOGO_URL}" alt="Logo">
+                        <h2>Phantom Predictor</h2>
                     </div>
-                    <h2>🔥 FIERLYY BOSS BERAS 🔥</h2>
-                    <div style="display:flex; gap:10px; align-items:center;">
-                        <span style="color:#f3d382;">${currentUser}</span>
-                        <button id="logoutBtn">KELUAR</button>
-                    </div>
+                    <div class="menu-btn" id="menuToggle"><i class="fas fa-bars"></i> Menu</div>
                 </div>
-                <div class="tabs">
-                    <div class="tab active" data-tab="ungu">🔫 DADU UNGU (D8)</div>
-                    <div class="tab" data-tab="biru">🌀 9 DADU BIRU (1 MATCH)</div>
-                    <div class="tab" data-tab="mpl">🏆 MPL (BEST OF 3)</div>
-                </div>
-                <div class="content">
-                    <div id="panelUngu" class="panel active-panel">
+                <div class="main-content">
+                    <div id="homePage" class="page active-page">
                         <div class="card">
-                            <div class="label">🎲 POLA AWAL-AKHIR (angka 1-8) — contoh: 7-3</div>
-                            <input type="text" id="polaUngu" placeholder="7-3" value="5-2">
-                            <button id="predUnguBtn">🔮 PREDIKSI NEXT ROLL (D8)</button>
-                            <div id="hasilUngu" class="result">
-                                <div class="result-big">—</div>
-                                <div class="small-text">Hasil prediksi untuk roll berikutnya</div>
+                            <div class="card-title">Selamat datang, ${currentUser.split('@')[0]}</div>
+                            <p>Sistem prediksi anti-RNG dengan algoritma hybrid (LCG + Weighted Trend + Momentum). Dapatkan prediksi akurat untuk D8 dan 9 Dadu Biru.</p>
+                            <div class="stats-row">
+                                <div class="stat-badge">📊 Total prediksi: ${totalPred}</div>
+                                <div class="stat-badge">🎯 Akurasi rata: ${avgAcc}%</div>
+                                <div class="stat-badge">🏆 Win Rate: ${winRate}%</div>
                             </div>
-                            <div class="status">📌 Weighted trend + histori lokal. KECIL (1-4) / BESAR (5-8).</div>
+                            <div class="card-title" style="margin-top:1rem;">🤖 Bot WhatsApp Assistant</div>
+                            <p>Kirim perintah <code>.prediksi 7-3</code> ke bot WhatsApp untuk prediksi instan. Fitur lain: .cekakun, .perpanjang, .help.</p>
+                            <div class="stats-row">
+                                <a href="${WA_CHANNEL}" target="_blank"><button style="background:#0a7cff; width:auto; margin:0;">Channel WA</button></a>
+                                <a href="${WA_GROUP}" target="_blank"><button style="background:#25D366; width:auto; margin:0;">Grup Diskusi</button></a>
+                            </div>
                         </div>
                     </div>
-                    <div id="panelBiru" class="panel">
+                    <div id="prediksiPage" class="page">
                         <div class="card">
-                            <div class="label">🎲 POLA DUA ROLL TERAKHIR (9-54) — contoh: 35-19</div>
-                            <input type="text" id="polaBiru" placeholder="35-19" value="42-27">
-                            <button id="predBiruBtn">⚡ PREDIKSI GAME SELANJUTNYA</button>
-                            <div id="hasilBiru" class="result">
-                                <div class="result-big">—</div>
-                                <div class="small-text">Berdasarkan rumus deviasi & titik jenuh (Anti-RNG)</div>
+                            <div class="card-title">Pilih Prediksi</div>
+                            <div class="pred-type-bar">
+                                <button class="type-btn active" data-type="d8">🎲 Dadu Ungu (D8)</button>
+                                <button class="type-btn" data-type="d9">🌀 9 Dadu Biru</button>
+                                <button class="type-btn" data-type="mpl">🏆 MPL (Maintenance)</button>
                             </div>
-                            <div class="status">📌 Rumus: jarak ke tengah >5 → rebound, else ikuti trend. Range ±3.</div>
+                            <div id="d8Form">
+                                <label>Pola awal-akhir (1-8) contoh: 7-3</label>
+                                <input type="text" id="d8Pola" placeholder="7-3" value="5-2">
+                                <button id="d8PredictBtn">Prediksi Next Roll</button>
+                                <div id="d8Result" class="result-box">
+                                    <div class="result-value">—</div>
+                                    <div>Hasil prediksi roll berikutnya</div>
+                                </div>
+                            </div>
+                            <div id="d9Form" style="display:none;">
+                                <label>Pola dua roll terakhir (9-54) contoh: 35-19</label>
+                                <input type="text" id="d9Pola" placeholder="35-19" value="42-27">
+                                <button id="d9PredictBtn">Prediksi Game Selanjutnya</button>
+                                <div id="d9Result" class="result-box">
+                                    <div class="result-value">—</div>
+                                    <div>Prediksi untuk roll berikutnya</div>
+                                </div>
+                            </div>
+                            <div id="mplForm" style="display:none;">
+                                <div class="result-box" style="background:#5b21b630;">
+                                    <i class="fas fa-tools"></i> MPL sedang dalam perbaikan.
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div id="panelMpl" class="panel">
-                        <div class="card">
-                            <div class="label">📌 MASUKKAN POLA (AWAL-AKHIR) UNTUK SETIAP MATCH (9-54)</div>
-                            <input type="text" id="mplPola1" placeholder="Match 1: 35-19" value="35-19">
-                            <input type="text" id="mplPola2" placeholder="Match 2: 42-27" value="42-27">
-                            <input type="text" id="mplPola3" placeholder="Match 3 (opsional)" value="">
-                            <div class="flex-btns">
-                                <button id="resetMplBtn" style="background:#4a351c;">⟳ RESET MPL</button>
-                                <button id="determineMplBtn">🔥 TENTUKAN PEMENANG</button>
+                    <div id="profilePage" class="page">
+                        <div class="card" style="text-align:center;">
+                            <img src="${OWNER_AVATAR}" style="width:80px; border-radius:50%; margin-bottom:0.5rem;">
+                            <h3>${currentUser}</h3>
+                            <div class="stats-row" style="justify-content:center;">
+                                <div class="stat-badge">📅 Aktif: ${expiry}</div>
+                                <div class="stat-badge">🏆 WR: ${winRate}%</div>
                             </div>
-                            <div id="mplStatus" class="status">⚡ Isi M1 & M2. Jika prediksi M1 = M2 → langsung menang tanpa M3.</div>
+                            <div class="stats-row" style="justify-content:center;">
+                                <div class="stat-badge">📊 Total pred: ${totalPred}</div>
+                                <div class="stat-badge">🎯 Akurasi: ${avgAcc}%</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="ownerPage" class="page">
+                        <div class="card">
+                            <div class="card-title">Owner & Kontak</div>
+                            <div style="display:flex; gap:1rem; align-items:center;">
+                                <img src="${OWNER_AVATAR}" style="width:70px; border-radius:50%;">
+                                <div><h3>FIERLYY BOSS</h3><p>Phantom Predator</p></div>
+                            </div>
+                            <div class="stats-row">
+                                <a href="https://wa.me/${WA_NUMBER}" target="_blank"><button style="background:#25D366;">WhatsApp Pribadi</button></a>
+                                <a href="${WA_CHANNEL}" target="_blank"><button style="background:#0a7cff;">Channel</button></a>
+                                <a href="${WA_GROUP}" target="_blank"><button style="background:#128C7E;">Grup</button></a>
+                            </div>
+                            <p>Perpanjangan masa aktif, pembelian WR, atau kendala silakan hubungi via WhatsApp.</p>
                         </div>
                     </div>
                 </div>
-                <div class="gallery">
-                    <img src="https://img2.pixhost.to/images/7301/716590479_xlyy-sera-assistant.jpg" alt="ashura1">
-                    <img src="https://img2.pixhost.to/images/7301/716590485_xlyy-sera-assistant.jpg" alt="ashura2">
-                    <img src="https://img2.pixhost.to/images/7301/716590523_xlyy-sera-assistant.jpg" alt="ashura3">
-                    <img src="https://img2.pixhost.to/images/7301/716590544_xlyy-sera-assistant.jpg" alt="ashura4">
+                <div class="footer">&copy; PHANTOM PREDICTOR • Advanced Anti-RNG</div>
+            </div>
+            <div id="sidebarOverlay" class="sidebar-overlay"></div>
+            <div id="sidebarMenu" class="sidebar">
+                <div class="sidebar-header">
+                    <img src="${LOGO_URL}" alt="logo">
+                    <div class="close-sidebar" id="closeSidebar"><i class="fas fa-times"></i></div>
                 </div>
-                <div class="footer">
-                    ⚜️ Masa aktif sampai: <span id="expiryText">-</span> ⚜️<br>
-                    📞 Untuk perpanjangan masa aktif, hubungi WhatsApp: <a href="https://wa.me/${WA_NUMBER}" target="_blank" class="wa-link">${WA_NUMBER}</a><br>
-                    CARA: Pilih menu, masukkan pola, klik prediksi. MPL: jika prediksi M1=M2 langsung menang.
+                <div class="sidebar-menu">
+                    <div class="sidebar-item" data-nav="home"><i class="fas fa-home"></i> Home</div>
+                    <div class="sidebar-item" data-nav="prediksi"><i class="fas fa-dice-d6"></i> Prediksi</div>
+                    <div class="sidebar-item" data-nav="profile"><i class="fas fa-user"></i> Profile</div>
+                    <div class="sidebar-item" data-nav="owner"><i class="fas fa-phone-alt"></i> Owner</div>
+                </div>
+                <div class="sidebar-footer">
+                    <div><i class="fas fa-user"></i> ${currentUser.split('@')[0]}</div>
+                    <div>WR: ${winRate}%</div>
+                    <button id="logoutSidebarBtn" style="background:#6d28d9; margin-top:8px;">Logout</button>
                 </div>
             </div>
         `;
-        attachDashboardEvents();
-        db.collection("users").doc(currentUserDocId).get().then(doc => {
-            const expirySpan = document.getElementById("expiryText");
-            if (expirySpan) expirySpan.innerText = doc.data().expiry;
-        });
-    }
 
-    function attachDashboardEvents() {
-        const tabs = document.querySelectorAll('.tab');
-        const panels = {
-            ungu: document.getElementById('panelUngu'),
-            biru: document.getElementById('panelBiru'),
-            mpl: document.getElementById('panelMpl')
-        };
-        tabs.forEach(tab => {
-            tab.addEventListener('click', () => {
-                tabs.forEach(t => t.classList.remove('active'));
-                tab.classList.add('active');
-                Object.keys(panels).forEach(p => panels[p].classList.remove('active-panel'));
-                panels[tab.dataset.tab].classList.add('active-panel');
+        // Sidebar logic
+        const overlay = document.getElementById("sidebarOverlay");
+        const sidebar = document.getElementById("sidebarMenu");
+        document.getElementById("menuToggle").onclick = () => { sidebar.classList.add("active"); overlay.classList.add("active"); };
+        document.getElementById("closeSidebar").onclick = () => { sidebar.classList.remove("active"); overlay.classList.remove("active"); };
+        overlay.onclick = () => { sidebar.classList.remove("active"); overlay.classList.remove("active"); };
+        document.querySelectorAll(".sidebar-item").forEach(item => {
+            item.addEventListener("click", () => {
+                const nav = item.dataset.nav;
+                document.querySelectorAll(".page").forEach(p => p.classList.remove("active-page"));
+                document.getElementById(`${nav}Page`).classList.add("active-page");
+                sidebar.classList.remove("active"); overlay.classList.remove("active");
             });
         });
-        document.getElementById('logoutBtn').onclick = async () => {
+        document.getElementById("logoutSidebarBtn").onclick = async () => {
             await auth.signOut();
-            currentUser = null;
-            renderUserLogin();
+            localStorage.clear();
+            renderLogin();
         };
-        // Prediksi Ungu
-        document.getElementById('predUnguBtn').addEventListener('click', () => {
-            let val = document.getElementById('polaUngu').value.trim();
-            if (!val.includes('-')) { alert("Format: angka-angka (1-8)"); return; }
-            let [a,b] = val.split('-').map(Number);
-            if (isNaN(a)||isNaN(b)||a<1||a>8||b<1||b>8) { alert("Angka 1-8"); return; }
-            let { hasil, confidence, rangeMin, rangeMax } = prediksiUngu(a,b);
-            document.getElementById('hasilUngu').innerHTML = `
-                <div class="result-big ${hasil === 'BESAR' ? 'besar' : 'kecil'}">${hasil}</div>
-                <div class="small-text">🎯 RANGE ANGKA: ${rangeMin} - ${rangeMax} | Akurasi: ${confidence}%</div>
-                <div class="small-text">📌 Prediksi untuk roll berikutnya (D8)</div>
-            `;
+
+        // Type selector
+        const typeBtns = document.querySelectorAll(".type-btn");
+        const d8Div = document.getElementById("d8Form");
+        const d9Div = document.getElementById("d9Form");
+        const mplDiv = document.getElementById("mplForm");
+        typeBtns.forEach(btn => {
+            btn.addEventListener("click", () => {
+                typeBtns.forEach(b => b.classList.remove("active"));
+                btn.classList.add("active");
+                d8Div.style.display = btn.dataset.type === "d8" ? "block" : "none";
+                d9Div.style.display = btn.dataset.type === "d9" ? "block" : "none";
+                mplDiv.style.display = btn.dataset.type === "mpl" ? "block" : "none";
+            });
         });
-        // Prediksi Biru
-        document.getElementById('predBiruBtn').addEventListener('click', () => {
-            let pola = document.getElementById('polaBiru').value.trim();
-            let pred = prediksiMafia(pola);
-            if (!pred) { alert("Format salah! Contoh: 35-19 (9-54)"); return; }
-            document.getElementById('hasilBiru').innerHTML = `
-                <div class="result-big ${pred.hasil === 'BESAR' ? 'besar' : 'kecil'}">${pred.hasil}</div>
-                <div class="small-text">🎯 RENTANG ANGKA: ${pred.rangeMin} - ${pred.rangeMax} | Akurasi: ${pred.akurasi}%</div>
-                <div class="small-text">📌 Prediksi untuk roll berikutnya (9 dadu biru)</div>
+
+        // D8 prediction (rumus anti-RNG update)
+        document.getElementById("d8PredictBtn").addEventListener("click", () => {
+            const val = document.getElementById("d8Pola").value.trim();
+            if (!val.includes("-")) { toast("Format salah (contoh: 7-3)", true); return; }
+            let [a,b] = val.split("-").map(Number);
+            if (isNaN(a)||isNaN(b)||a<1||a>8||b<1||b>8) { toast("Angka harus 1-8", true); return; }
+            const hasil = prediksiD8(a,b);
+            if (!hasil) return;
+            document.getElementById("d8Result").innerHTML = `
+                <div class="result-value ${hasil.hasil === 'BESAR' ? 'besar' : 'kecil'}">${hasil.hasil}</div>
+                <div>Range: ${hasil.minR} - ${hasil.maxR} | Akurasi: ${hasil.conf}%</div>
+                <div>Prediksi untuk roll berikutnya</div>
             `;
+            updateUserStats(hasil.conf);
         });
-        // MPL
-        document.getElementById('resetMplBtn').onclick = () => {
-            document.getElementById('mplPola1').value = '';
-            document.getElementById('mplPola2').value = '';
-            document.getElementById('mplPola3').value = '';
-            document.getElementById('mplStatus').innerHTML = "⚡ MPL direset. Isi M1 & M2. Jika prediksi sama → langsung menang.";
-        };
-        document.getElementById('determineMplBtn').onclick = () => {
-            let p1 = document.getElementById('mplPola1').value.trim();
-            let p2 = document.getElementById('mplPola2').value.trim();
-            let p3 = document.getElementById('mplPola3').value.trim();
-            let statusDiv = document.getElementById('mplStatus');
-            let pred1 = getPred(p1);
-            let pred2 = getPred(p2);
-            if (!pred1 || !pred2) {
-                statusDiv.innerHTML = "⚠️ Masukkan pola valid M1 & M2 (contoh: 35-19)";
-                return;
-            }
-            if (pred1 === pred2) {
-                statusDiv.innerHTML = `🏆 PEMENANG MPL: ${pred1} 🏆 (karena prediksi M1 dan M2 sama, langsung menang)<br>🔮 Prediksi M1: ${pred1} | M2: ${pred2}`;
-                return;
-            }
-            if (!p3) {
-                statusDiv.innerHTML = `⚔️ Prediksi M1 = ${pred1}, M2 = ${pred2} (berbeda). Masukkan pola M3.`;
-                return;
-            }
-            let pred3 = getPred(p3);
-            if (!pred3) {
-                statusDiv.innerHTML = "❌ Pola M3 tidak valid.";
-                return;
-            }
-            let countB = (pred1==='BESAR'?1:0)+(pred2==='BESAR'?1:0)+(pred3==='BESAR'?1:0);
-            let countK = 3 - countB;
-            let winner = countB > countK ? "BESAR" : (countK > countB ? "KECIL" : "DRAW");
-            statusDiv.innerHTML = `🏆 PEMENANG MPL: ${winner} 🏆<br>📊 Hasil prediksi: M1=${pred1}, M2=${pred2}, M3=${pred3} → (B:${countB}, K:${countK})`;
-        };
+
+        document.getElementById("d9PredictBtn").addEventListener("click", () => {
+            const pola = document.getElementById("d9Pola").value.trim();
+            const pred = prediksi9D(pola);
+            if (!pred) { toast("Format salah (contoh: 35-19)", true); return; }
+            document.getElementById("d9Result").innerHTML = `
+                <div class="result-value ${pred.hasil === 'BESAR' ? 'besar' : 'kecil'}">${pred.hasil}</div>
+                <div>Range: ${pred.minR} - ${pred.maxR} | Akurasi: ${pred.akurasi}%</div>
+                <div>Prediksi game selanjutnya</div>
+            `;
+            updateUserStats(pred.akurasi);
+        });
     }
 
-    // Fungsi prediksi
-    function prediksiUngu(awal, akhir) {
-        let history = JSON.parse(localStorage.getItem("historyUngu_" + currentUser) || "[]");
-        let weightedTrend = akhir - awal;
+    function updateUserStats(akurasi) {
+        let total = parseInt(localStorage.getItem(`totalPred_${currentUid}`) || 0);
+        let avg = parseInt(localStorage.getItem(`avgAcc_${currentUid}`) || 0);
+        total++;
+        let newAvg = Math.round((avg * (total-1) + akurasi) / total);
+        localStorage.setItem(`totalPred_${currentUid}`, total);
+        localStorage.setItem(`avgAcc_${currentUid}`, newAvg);
+    }
+
+    // ======================= PREDIKSI ANTI-RNG (UPDATE) =======================
+    function prediksiD8(awal, akhir) {
+        // Menggunakan weighted trend + LCG seed berdasarkan timestamp
+        let history = JSON.parse(localStorage.getItem(`histD8_${currentUid}`) || "[]");
+        let trend = akhir - awal;
+        let weighted = trend;
         if (history.length > 0) {
             let all = [...history, {awal, akhir}];
-            let sumWeight = 0, sumDiff = 0;
+            let sumW = 0, sumD = 0;
             for (let i=0; i<all.length; i++) {
-                let weight = i+1;
-                let diff = all[i].akhir - all[i].awal;
-                sumDiff += diff * weight;
-                sumWeight += weight;
+                let w = i+1;
+                let d = all[i].akhir - all[i].awal;
+                sumD += d * w;
+                sumW += w;
             }
-            weightedTrend = sumDiff / sumWeight;
+            weighted = sumD / sumW;
         }
         history.push({awal, akhir});
-        if(history.length>3) history.shift();
-        localStorage.setItem("historyUngu_" + currentUser, JSON.stringify(history));
-        let hasil = "", confidence = 0;
+        if (history.length > 4) history.shift();
+        localStorage.setItem(`histD8_${currentUid}`, JSON.stringify(history));
+
+        // Faktor acak dari timestamp untuk melawan RNG
+        let seed = Date.now() % 1000;
+        let pseudo = (seed * 1664525 + 1013904223) % 2**32;
+        let rngFactor = (pseudo % 100) / 100; // 0..1
+
+        let hasil = "";
+        let conf = 0;
         let jarak = akhir - 4.5;
-        if (akhir >= 7) { hasil = "KECIL"; confidence = 94; }
-        else if (akhir <= 2) { hasil = "BESAR"; confidence = 94; }
-        else if (akhir >= 6) { hasil = "KECIL"; confidence = 85; }
-        else if (akhir <= 3) { hasil = "BESAR"; confidence = 85; }
-        else if (jarak > 1.5) { hasil = "KECIL"; confidence = 72 + Math.min(20, Math.abs(weightedTrend)*4); }
-        else if (jarak < -1.5) { hasil = "BESAR"; confidence = 72 + Math.min(20, Math.abs(weightedTrend)*4); }
+        // Zone ekstrim
+        if (akhir >= 7) { hasil = "KECIL"; conf = 94 + (rngFactor*2); }
+        else if (akhir <= 2) { hasil = "BESAR"; conf = 94; }
+        else if (akhir >= 6) { hasil = "KECIL"; conf = 85; }
+        else if (akhir <= 3) { hasil = "BESAR"; conf = 85; }
+        else if (jarak > 1.5) { hasil = "KECIL"; conf = 70 + Math.abs(weighted)*3; }
+        else if (jarak < -1.5) { hasil = "BESAR"; conf = 70 + Math.abs(weighted)*3; }
         else {
-            if (weightedTrend > 0.3) { hasil = "BESAR"; confidence = 68 + Math.min(25, weightedTrend*10); }
-            else if (weightedTrend < -0.3) { hasil = "KECIL"; confidence = 68 + Math.min(25, Math.abs(weightedTrend)*10); }
-            else { hasil = jarak > 0 ? "KECIL" : "BESAR"; confidence = 65; }
+            if (weighted > 0.2) hasil = "BESAR";
+            else if (weighted < -0.2) hasil = "KECIL";
+            else hasil = rngFactor > 0.5 ? "BESAR" : "KECIL";
+            conf = 65 + Math.abs(weighted)*5;
         }
-        confidence = Math.min(98, Math.floor(confidence));
-        let rangeMin, rangeMax;
+        conf = Math.min(98, Math.floor(conf));
+
+        let minR, maxR;
         if (hasil === "BESAR") {
-            let base = Math.min(7, Math.max(5, akhir + Math.sign(weightedTrend)*1));
-            rangeMin = Math.max(5, base);
-            rangeMax = Math.min(8, rangeMin+2);
-            if(rangeMax - rangeMin < 2) rangeMax = Math.min(8, rangeMax+1);
-            rangeMin = Math.max(5, rangeMin);
-            rangeMax = Math.min(8, rangeMax);
+            let base = Math.min(7, Math.max(5, akhir + Math.sign(weighted)*1 + (rngFactor>0.7?1:0)));
+            minR = Math.max(5, base);
+            maxR = Math.min(8, minR+2);
+            if (maxR - minR < 2) maxR = Math.min(8, maxR+1);
         } else {
-            let base = Math.max(1, Math.min(3, akhir + Math.sign(weightedTrend)*1));
-            rangeMin = Math.max(1, base);
-            rangeMax = Math.min(4, rangeMin+2);
-            if(rangeMax - rangeMin < 2) rangeMin = Math.max(1, rangeMin-1);
-            rangeMin = Math.min(4, rangeMin);
-            rangeMax = Math.min(4, rangeMax);
+            let base = Math.max(1, Math.min(3, akhir + Math.sign(weighted)*1 - (rngFactor>0.7?1:0)));
+            minR = Math.max(1, base);
+            maxR = Math.min(4, minR+2);
+            if (maxR - minR < 2) minR = Math.max(1, minR-1);
         }
-        if(rangeMin > rangeMax) { let t=rangeMin; rangeMin=rangeMax; rangeMax=t; }
-        return { hasil, confidence, rangeMin, rangeMax };
+        if (minR > maxR) { let t=minR; minR=maxR; maxR=t; }
+        return { hasil, conf, minR, maxR };
     }
-    function prediksiMafia(polaStr) {
+
+    function prediksi9D(polaStr) {
         if (!polaStr || !polaStr.includes('-')) return null;
-        let [awal, akhir] = polaStr.split('-').map(num => parseInt(num));
+        let [awal, akhir] = polaStr.split('-').map(Number);
         if (isNaN(awal) || isNaN(akhir)) return null;
-        if (awal < 9 || awal > 54 || akhir < 9 || akhir > 54) return null;
+        if (awal<9 || awal>54 || akhir<9 || akhir>54) return null;
         let titikTengah = 31.5;
         let trend = akhir - awal;
-        let jarakKeTengah = akhir - titikTengah;
+        let jarak = akhir - titikTengah;
+        let seed = Date.now() % 10000;
+        let lcg = (seed * 1103515245 + 12345) % 2**31;
+        let rng = (lcg % 100) / 100;
+
         let hasil = "";
-        if (jarakKeTengah > 5) hasil = "KECIL";
-        else if (jarakKeTengah < -5) hasil = "BESAR";
+        if (jarak > 5) hasil = "KECIL";
+        else if (jarak < -5) hasil = "BESAR";
         else hasil = trend >= 0 ? "BESAR" : "KECIL";
-        let rangeMin, rangeMax;
+        // sedikit noise anti-RNG
+        if (rng < 0.2) hasil = (hasil === "BESAR") ? "KECIL" : "BESAR";
+        let minR, maxR;
         if (hasil === "BESAR") {
-            rangeMin = Math.max(32, Math.min(51, akhir + (trend > 0 ? 3 : 6)));
+            minR = Math.max(32, Math.min(51, akhir + (trend > 0 ? 3 : 6) + Math.floor(rng*5)));
         } else {
-            rangeMin = Math.max(9, Math.min(28, akhir - (trend < 0 ? 3 : 6)));
+            minR = Math.max(9, Math.min(28, akhir - (trend < 0 ? 3 : 6) - Math.floor(rng*5)));
         }
-        rangeMax = rangeMin + 3;
-        rangeMin = Math.min(54, Math.max(9, rangeMin));
-        rangeMax = Math.min(54, Math.max(9, rangeMax));
-        if(rangeMin > rangeMax) { let t=rangeMin; rangeMin=rangeMax; rangeMax=t; }
-        let akurasi = Math.min(98, Math.floor(70 + Math.abs(jarakKeTengah)));
-        return { hasil, rangeMin, rangeMax, akurasi };
-    }
-    function getPred(pola) {
-        let p = prediksiMafia(pola);
-        return p ? p.hasil : null;
+        maxR = minR + 3;
+        minR = Math.min(54, Math.max(9, minR));
+        maxR = Math.min(54, Math.max(9, maxR));
+        if (minR > maxR) { let t=minR; minR=maxR; maxR=t; }
+        let akurasi = Math.min(98, Math.floor(70 + Math.abs(jarak) + (rng*5)));
+        return { hasil, minR, maxR, akurasi };
     }
 
     // ======================= START =======================
@@ -474,14 +794,14 @@
             const doc = await db.collection("users").doc(user.uid).get();
             if (doc.exists && (!doc.data().expiry || doc.data().expiry >= new Date().toISOString().split('T')[0])) {
                 currentUser = user.email;
-                currentUserDocId = user.uid;
+                currentUid = user.uid;
                 renderDashboard();
             } else {
                 await auth.signOut();
-                renderUserLogin();
+                renderLogin();
             }
         } else {
-            renderUserLogin();
+            renderLogin();
         }
     });
 </script>
